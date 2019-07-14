@@ -8,12 +8,14 @@ var db = require("./models");
 
 var PORT = 3000;
 var app = express();
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://joyousmisery128:mintvol821@ds151086.mlab.com:51086/heroku_l2nth5p1"
+//"mongodb://localhost/albumscraper"
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost/albumscraper", { useNewUrlParser: true });
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 app.get("/scrape", function (req, res) {
 
