@@ -6,7 +6,7 @@ var axios = require("axios");
 
 var db = require("./models");
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 var app = express();
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://joyousmisery128:mintvol821@ds151086.mlab.com:51086/heroku_l2nth5p1"
 //"mongodb://localhost/albumscraper"
