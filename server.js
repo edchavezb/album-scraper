@@ -33,9 +33,7 @@ app.get("/scrape", function (req, res) {
 
     $("li.product.release_product").each(function (i, element) {
 
-      var limiter = i < 8;
-      /* console.log(limiter);
-      console.log(i); */
+      var limiter = i < 18;
 
       var result = {}
 
