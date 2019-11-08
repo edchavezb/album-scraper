@@ -17,6 +17,7 @@ app.use(express.static("public"));
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
+// Route to begin scraping metacritic.com and save the resulting albums to the database
 app.get("/scrape", function (req, res) {
 
   console.log("Hitting route /scrape");
@@ -69,64 +70,51 @@ app.get("/scrape", function (req, res) {
   });
 });
 
-// Route for getting all Articles from the db
+// Route for getting all albums from the db
 app.get("/releases", function (req, res) {
-  // TODO: Finish the route so it grabs all of the articles
+
   db.Release.find({})
     .then(function (all) {
-      // If all Notes are successfully found, send them back to the client
       res.json(all);
     })
     .catch(function (err) {
-      // If an error occurs, send the error back to the client
       res.json(err);
     });
 });
 
+// Route to wipe all previously scraped albums
 app.get("/wipe", function (req, res) {
-  // TODO: Finish the route so it grabs all of the articles
   db.Release.remove({})
     .then(function (all) {
-      // If all Notes are successfully found, send them back to the client
       res.send("All entries wiped");
     })
     .catch(function (err) {
-      // If an error occurs, send the error back to the client
       res.json(err);
     });
     db.Note.remove({})
     .then(function (all) {
-      // If all Notes are successfully found, send them back to the client
       res.send("All notes wiped");
     })
     .catch(function (err) {
-      // If an error occurs, send the error back to the client
       res.json(err);
     });
 });
 
-// Route for grabbing a specific Article by id, populate it with it's note
+// Route for grabbing a specific album by id, retrieve its notes
 app.get("/releases/:id", function (req, res) {
 
   db.Release.find({ _id: req.params.id })
     .populate("note")
     .then(function (dbNote) {
-      // If all Notes are successfully found, send them back to the client
       res.json(dbNote);
     })
     .catch(function (err) {
-      // If an error occurs, send the error back to the client
       res.json(err);
     });
 });
 
- // Route for saving/updating an Article's associated Note
+ // Route for saving/updating an album's associated Note
 app.post("/releases/:id", function (req, res) {
-  // TODO
-  // ====
-  // save the new note that gets posted to the Notes collection
-  // then find an article from the req.params.id
-  // and update it's "note" property with the _id of the new note
   console.log(req.params.id);
   db.Note.create(req.body)
     .then(function (dbNote) {
@@ -136,7 +124,6 @@ app.post("/releases/:id", function (req, res) {
       res.json(dbRelease);
     })
     .catch(function (err) {
-      // If an error occurs, send the error back to the client
       res.json(err);
     });
 });
