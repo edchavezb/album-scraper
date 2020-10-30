@@ -14,10 +14,11 @@ const getStoredData = () => {
 
       var cardBody = $("<div>");
       cardBody.addClass("card-body");
-
+      var score = $("<div class=\"album-score\" > <span> " + data[i].score + " </span></div>");
       var cardText = $("<p class=\"card-text\" >" + data[i].artist + " - <span> <a href=" + data[i].link + ">" + data[i].title +"</a></span></p>");
       cardBody.append(cardText);
       releaseCard.append(cardBody);
+      releaseCard.append(score);
 
       $("#releases").prepend(releaseCard);
 

@@ -29,6 +29,7 @@ textarea {
 .card{
     width: 200px;
     margin: 15px 2.5%;
+    position: relative;
 }
 
 .card-text{
@@ -39,6 +40,21 @@ textarea {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.album-score {
+    background-color: #0275d8;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    font-weight: bold;
+    position: absolute;
+    top: 5px;
+    right: 5px;
 }
 
 #releases {
