@@ -51,6 +51,16 @@ textarea {
     margin-top: 20px;
 }
 
-@media screen and (max-width: 765px) {
+@media screen and (max-width: 576px) {
+
+    .card{
+        width: 40%;
+        margin: 15px 5%;
+    }
+
+    .card-text{
+        font-size: .8em;
+        -webkit-line-clamp: 4;
+    }
 
 }
