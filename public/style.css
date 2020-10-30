@@ -1,0 +1,56 @@
+body { 
+    background-color: #ffffff 
+}
+
+#app {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-top: 40px;
+    overflow: hidden;
+}
+
+textarea, input {
+    display: block;
+    width: 100%;
+    background-color: rgb(233, 248, 255);
+}
+
+input {
+    height: 36px;
+    font-size: 24px;
+}
+
+textarea {
+    height: 200px;
+    font-size: 18px;
+}
+
+.card{
+    width: 200px;
+    margin: 15px 2.5%;
+}
+
+.card-text{
+    overflow: hidden;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#releases {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#instructions {
+    margin-top: 20px;
+}
+
+@media screen and (max-width: 765px) {
+
+}

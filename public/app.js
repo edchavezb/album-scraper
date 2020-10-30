@@ -1,27 +1,54 @@
-// Grab the articles as a json
-$.getJSON("/releases", function(data) {
+const getStoredData = () => {
+  $.getJSON("/releases", function(data) {
   // For each one
-  for (var i = 0; i < data.length; i++) {
+    for (var i = 0; i < data.length; i++) {
 
-    var releaseCard = $("<div>");
-    releaseCard.addClass("card mb-2 mx-1")
+      var releaseCard = $("<div>");
+      releaseCard.addClass("card")
 
-    var cardImage = $("<img>");
-    cardImage.addClass("card-img-top")
-    cardImage.attr("src", data[i].imgLink);
-    cardImage.attr("data-id", data[i]._id)
-    releaseCard.append(cardImage);
+      var cardImage = $("<img>");
+      cardImage.addClass("card-img-top")
+      cardImage.attr("src", data[i].imgLink);
+      cardImage.attr("data-id", data[i]._id)
+      releaseCard.append(cardImage);
 
-    var cardBody = $("<div>");
-    cardBody.addClass("card-body");
+      var cardBody = $("<div>");
+      cardBody.addClass("card-body");
 
-    var cardText = $("<p class=\"card-text\" >" + data[i].artist + " - <span> <a href=" + data[i].link + ">" + data[i].title +"</a></span></p>");
-    cardBody.append(cardText);
-    releaseCard.append(cardBody);
+      var cardText = $("<p class=\"card-text\" >" + data[i].artist + " - <span> <a href=" + data[i].link + ">" + data[i].title +"</a></span></p>");
+      cardBody.append(cardText);
+      releaseCard.append(cardBody);
 
-    $(".release-row").prepend(releaseCard);
+      $("#releases").prepend(releaseCard);
 
-  }
+    }
+  });
+}
+
+$(document).on("click", "#scrape", function() {
+  $.ajax({
+    method: "GET",
+    url: "/scrape/"
+  })
+  // With that done
+  .then(function(data) {
+    // Log the response
+    console.log(data);
+    let wait = setTimeout(getStoredData, 2000);
+  })
+});
+
+$(document).on("click", "#wipe", function() {
+  $.ajax({
+    method: "GET",
+    url: "/wipe/"
+  })
+  // With that done
+  .then(function(data) {
+    // Log the response
+    console.log(data);
+    $("#releases").empty();
+  })
 });
 
 
@@ -90,3 +117,5 @@ $(document).on("click", "#savenote", function() {
   $("#titleinput").val("");
   $("#bodyinput").val(""); 
 });
+
+getStoredData();

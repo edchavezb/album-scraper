@@ -8,7 +8,7 @@ var db = require("./models");
 
 var PORT = process.env.PORT || 3000;
 var app = express();
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://joyousmisery128:mintvol821@ds151086.mlab.com:51086/heroku_l2nth5p1"
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/albumscraper";
 //"mongodb://localhost/albumscraper"
 
 app.use(express.urlencoded({ extended: true }));
@@ -32,27 +32,23 @@ app.get("/scrape", function (req, res) {
 
     var $ = cheerio.load(response.data);
 
-    $("li.product.release_product").each(function (i, element) {
+    $("td.clamp-summary-wrap").each(function (i, element) {
 
       var limiter = i < 18;
 
       var result = {}
 
-      result.title = $(this).find(".basic_stat.product_title").children("a").text().replace("\n", "").replace("\'", "").trim();
-      result.artist = $(this).find(".basic_stat.condensed_stats").find("li.stat.product_artist").children(".data").text()
-      result.release = $(this).find(".basic_stat.condensed_stats").find("li.stat.release_date.full_release_date").children(".data").text()
-      result.score = $(this).find(".basic_stat.product_score.brief_metascore").children(".metascore_w").text()
-      result.link = "https://www.metacritic.com" + $(this).find(".basic_stat.product_title").children("a").attr("href");
-    
-      console.log(result.link);
+      result.title = $(this).find(".title").children("h3").text().trim();
+      result.artist = $(this).find(".clamp-details").children(".artist").text().replace("by", "").trim();
+      result.release = $(this).find(".clamp-details").children("span").text().trim();
+      result.score = $(this).find(".clamp-score-wrap").find(".metascore_w").text().trim();
+      result.link = "https://www.metacritic.com" + $(this).find(".title").attr("href");
 
       axios.get(result.link).then(function (imageresp) {
 
         var $$ = cheerio.load(imageresp.data);
 
         result.imgLink = $$("img.product_image").attr("src");
-
-        console.log("image " + result.imgLink);
 
       }).then(function() {
         db.Release.create(result)
@@ -84,7 +80,7 @@ app.get("/releases", function (req, res) {
 
 // Route to wipe all previously scraped albums
 app.get("/wipe", function (req, res) {
-  db.Release.remove({})
+  db.Release.deleteMany({})
     .then(function (all) {
       res.send("All entries wiped");
     })
